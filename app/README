@@ -1,0 +1,85 @@
+
+
+    这是一个二次封装的BaseActivity基类库；
+    集成功能：
+       1、封装好的Dialog（加载动画Dialog，选择菜单Dialog）；
+            使用：
+            1）、选择菜单Dialog：
+                 Dialog_Bottom menuView = new Dialog_Bottom(MainActivity.this);
+                 menuView.setCancelButtonTitle("取消");// before add items
+                 menuView.addItems("编 辑", "删 除", "新 增", "收 藏");
+                 menuView.setItemClickListener(new Dialog_Bottom.MenuItemClickListener() {
+                     @Override
+                     public void onItemClick(int itemPosition) {
+                         ToastUtil.showText("点击的是第" + itemPosition + "条！");
+                     }
+                 });
+                 menuView.setCancelableOnTouchMenuOutside(true);
+                 menuView.showMenu();
+            2）、加载动画Dialog：
+                //显示
+                DialogUtil.showDialogLoading(MainActivity.this);
+                //隐藏
+                DialogUtil.hideDialogLoading();
+       2、网络监察以及网路改变监听；
+            //清单文件中注册
+            <receiver android:name=".NetWorkListener.NetBroadcastReceiver">
+                <intent-filter>
+                    <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                </intent-filter>
+            </receiver>
+
+            //代码中监听网路改变之后的操作
+            NetBroadcastReceiver.setEvevt(new NetBroadcastReceiver.NetEvevtChangListener() {
+                @Override
+                public void onNetChange(int netMobile) {
+                    if (netMobile == NetUtil.NETWORK_NONE)
+                        network.setVisibility(View.VISIBLE);
+                    else network.setVisibility(View.GONE);
+                }
+            });
+
+            //判断网络是否可用
+            if (NetUtil.getNetWorkState(BaseActivity.this) == NetUtil.NETWORK_NONE)
+
+       3、Toast自定义；
+            ToastUtil.showText("你好啊我是你的好朋友");
+
+       4、自定义通知封装；
+            NotificationUtils.createNotif(
+                                    this, R.mipmap.ic_launcher, "你好，我是Notification",
+                                    "标题", "内容", new Intent(this, A.class), 0, 0);
+
+       5、OKHTTP网络请求，文件下载上传等集成封装；
+
+             OkHttpUtils.postAsyn("url", params, new HttpCallback() {
+                  @Override
+                  public void onSuccess(ResultDesc resultDesc) {
+                      super.onSuccess(resultDesc);
+                      //请求成功
+
+                  }
+                  @Override
+                  public void onFailure(int code, String message) {
+                      super.onFailure(code, message);
+                      //请求失败
+                  }
+
+                  @Override
+                  public void onProgress(long currentTotalLen, long totalLen) {
+                      super.onProgress(currentTotalLen, totalLen);
+                  }
+              });
+       6、下拉刷新，上拉加载集成封装；
+
+            xrefreshview.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
+                @Override
+                public void onRefresh(boolean isPullDown) {
+                    //下拉后的操作
+                }
+
+                @Override
+                public void onLoadMore(boolean isSilence) {
+                    //上拉后的操作
+                }
+            });
