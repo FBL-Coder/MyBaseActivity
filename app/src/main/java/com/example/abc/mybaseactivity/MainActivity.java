@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import com.andview.refreshview.XRefreshView;
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.Dialog_Select_Bottom.Dialog_Bottom;
+import com.example.abc.mybaseactivity.FileUtils.GetFilePath;
 import com.example.abc.mybaseactivity.HttpGetDataUtils.HttpCallback;
 import com.example.abc.mybaseactivity.HttpGetDataUtils.OkHttpUtils;
 import com.example.abc.mybaseactivity.HttpGetDataUtils.ResultDesc;
@@ -17,6 +18,7 @@ import com.example.abc.mybaseactivity.OtherUtils.DialogUtil;
 import com.example.abc.mybaseactivity.OtherUtils.LogUtil;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -45,6 +47,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         iv_2 = (ImageView) findViewById(R.id.iv_2);
         iv_2.setOnClickListener(this);
     }
+
+
 
     @Override
     public void initData() {
@@ -102,13 +106,48 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 menuView.setItemClickListener(new Dialog_Bottom.MenuItemClickListener() {
                     @Override
                     public void onItemClick(int itemPosition) {
-                        ToastUtil.showText("点击的是第" + itemPosition + "条！");
+//                        ToastUtil.showText("点击的是第" + itemPosition + "条！");
+                        pickFile();
                     }
                 });
                 menuView.setCancelableOnTouchMenuOutside(true);
                 menuView.showMenu();
             }
         });
+    }
+
+    private void pickFile() {
+        Intent intent = new Intent();
+        intent.setType("*/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent,0);
+    }
+    private String filePath;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+            filePath = GetFilePath.getPath(this, data.getData());
+        if (filePath == null)
+            return;
+        if (filePath.endsWith("txt") || filePath.endsWith("doc") || filePath.endsWith("docx") ||
+                filePath.endsWith("wps") || filePath.endsWith("wpt") ||
+                filePath.endsWith("ppt") || filePath.endsWith("pptx") ||
+                filePath.endsWith("xls") || filePath.endsWith("xlsx") ||
+                filePath.endsWith("TXT") || filePath.endsWith("DOC") ||
+                filePath.endsWith("DOCX") || filePath.endsWith("WPS") ||
+                filePath.endsWith("PPT") || filePath.endsWith("PPTX") ||
+                filePath.endsWith("XLS") || filePath.endsWith("XLSX") ||
+                filePath.endsWith("pdf") || filePath.endsWith("WPT") ||
+                filePath.endsWith("PDF")) {
+        } else {
+            ToastUtil.showText("选择文件类型不正确！");
+            return;
+        }
+        File f = new File(filePath);
+
+//        OkHttpUtils.postAsynFiles("","",);
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

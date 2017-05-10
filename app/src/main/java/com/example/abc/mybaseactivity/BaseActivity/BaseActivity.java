@@ -65,7 +65,7 @@ public abstract class BaseActivity extends FragmentActivity {
      * @param colorResourceid 颜色(必须是16进制的颜色值)
      */
     public void setStatusColor(int colorResourceid) {
-        colorResourceid = UIUtils.getColor(colorResourceid);
+        int color = UIUtils.getColor(colorResourceid);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = this.getWindow();
             //取消设置透明状态栏,使 ContentView 内容不再覆盖状态栏
@@ -74,7 +74,7 @@ public abstract class BaseActivity extends FragmentActivity {
             //需要设置这个 flag 才能调用 setStatusBarColor 来设置状态栏颜色
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             //设置状态栏颜色
-            window.setStatusBarColor(colorResourceid);
+            window.setStatusBarColor(color);
 
             ViewGroup mContentView = (ViewGroup) this.findViewById(Window.ID_ANDROID_CONTENT);
             View mChildView = mContentView.getChildAt(0);
@@ -106,12 +106,12 @@ public abstract class BaseActivity extends FragmentActivity {
             View statusBarView = mContentView.getChildAt(0);
             if (statusBarView != null && statusBarView.getLayoutParams() != null && statusBarView.getLayoutParams().height == statusBarHeight) {
                 //避免重复调用时多次添加 View
-                statusBarView.setBackgroundColor(colorResourceid);
+                statusBarView.setBackgroundColor(color);
                 return;
             }
             statusBarView = new View(this);
             ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, statusBarHeight);
-            statusBarView.setBackgroundColor(colorResourceid);
+            statusBarView.setBackgroundColor(color);
             //向 ContentView 中添加假 View
             mContentView.addView(statusBarView, 0, lp);
         }
@@ -193,10 +193,12 @@ public abstract class BaseActivity extends FragmentActivity {
         xrefreshview.setScrollBackDuration(300);
         return xrefreshview;
     }
+
     /**
      * 设置标题栏是否显示
-     * @param isVisible 是否显示
-     * @param colorResourceid     背景颜色
+     *
+     * @param isVisible       是否显示
+     * @param colorResourceid 背景颜色
      */
     public void setTitleViewVisible(boolean isVisible, int colorResourceid) {
         if (!isVisible) title_layout.setVisibility(View.GONE);
@@ -220,27 +222,29 @@ public abstract class BaseActivity extends FragmentActivity {
 
     /**
      * 获取左边图标按钮
+     *
      * @return 左边图标控件
      */
-    public View getLiftImage(){
+    public View getLiftImage() {
         return leftBack;
     }
 
     /**
      * 获取右边图标按钮
+     *
      * @return 右边图标控件
      */
-    public View getRightImage(){
+    public View getRightImage() {
         return rightMore;
     }
 
     /**
      * 设置标题栏图片资源
      *
-     * @param isVisible_left  是否显示左边图片按钮
-     * @param imageResourceid_left   左边图按钮资源
-     * @param isVisible_right 是否显示右边图片按钮
-     * @param imageResourceid_right  右边图按钮资源
+     * @param isVisible_left        是否显示左边图片按钮
+     * @param imageResourceid_left  左边图按钮资源
+     * @param isVisible_right       是否显示右边图片按钮
+     * @param imageResourceid_right 右边图按钮资源
      */
     public void setTitleImageBtn(boolean isVisible_left, int imageResourceid_left, boolean isVisible_right, int imageResourceid_right) {
         if (isVisible_left) {
@@ -258,9 +262,9 @@ public abstract class BaseActivity extends FragmentActivity {
     /**
      * 设置标题
      *
-     * @param textContent  标题内容
-     * @param textSize  字体大小
-     * @param textColor 字体颜色
+     * @param textContent 标题内容
+     * @param textSize    字体大小
+     * @param textColor   字体颜色
      */
     public void setTitleText(String textContent, int textSize, int textColor) {
         titleText.setText(textContent);
@@ -287,6 +291,7 @@ public abstract class BaseActivity extends FragmentActivity {
     public void setLayout(int layoutID) {
         llcontent_other.addView(inflater.inflate(layoutID, null));
     }
+
     /**
      * 初始化布局控件
      */
