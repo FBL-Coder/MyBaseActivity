@@ -140,7 +140,6 @@ public abstract class BaseActivity extends FragmentActivity {
         inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         title_layout = (RelativeLayout) findViewById(R.id.title_layout);
         network = (TextView) findViewById(R.id.no_network);
-        xrefreshview = (XRefreshView) findViewById(R.id.xrefreshview);
         titleText = (TextView) findViewById(R.id.title_center);
         leftBack = (ImageView) findViewById(R.id.left_back);
         rightMore = (ImageView) findViewById(R.id.right_more);

@@ -1,8 +1,10 @@
 package com.example.abc.mybaseactivity.MyApplication;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.os.Build;
 
 import com.example.abc.mybaseactivity.HttpGetDataUtils.OkHttpUtils;
 
@@ -37,6 +39,7 @@ public class MyApplication extends Application {
     /**
      * @Description 初始化OkHttp
      */
+    @TargetApi(Build.VERSION_CODES.FROYO)
     private void initOkHttp() {
         File cache = getExternalCacheDir();
         int cacheSize = 10 * 1024 * 1024;
